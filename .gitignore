@@ -4,3 +4,4 @@ dist/
 out-tsc/
 test-results/
 *.log
+evidencias/
