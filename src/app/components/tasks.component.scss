@@ -1,0 +1,103 @@
+/* Presentación de las tarjetas y su metadato; el breakpoint adapta los botones en móvil. */
+.task-list {
+    display: grid;
+    gap: 14px
+}
+
+.task-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 21px 22px
+}
+
+.task-card.selected {
+    border-color: #6893e5;
+    box-shadow: 0 0 0 2px #0033a00a
+}
+
+.task-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 13px
+}
+
+.course-name {
+    font-size: 10px;
+    font-weight: 650;
+    color: var(--blue);
+    letter-spacing: .15px
+}
+
+.task-card h3 {
+    font-size: 16px;
+    max-width: 430px;
+    letter-spacing: -.3px
+}
+
+.task-description {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 18px;
+    max-width: 520px
+}
+
+.task-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px
+}
+
+.task-meta {
+    display: grid;
+    gap: 6px;
+    font-size: 10px;
+    color: #68768b
+}
+
+.filters .text-button {
+    align-self: end;
+    min-height: 40px
+}
+
+@media(max-width:720px) {
+    .task-card {
+        padding: 18px 16px
+    }
+
+    .task-bottom {
+        align-items: flex-start
+    }
+
+    .task-bottom .button {
+        font-size: 9px;
+        white-space: nowrap;
+        padding: 8px
+    }
+
+    .task-card h3 {
+        font-size: 15px
+    }
+
+    .course-name {
+        font-size: 9px
+    }
+
+    .task-meta {
+        font-size: 9px
+    }
+
+    .task-top {
+        align-items: flex-start
+    }
+
+    .task-top .tag {
+        flex-shrink: 0
+    }
+}

@@ -1,0 +1,33 @@
+<!-- Las tarjetas iteran filtered, mientras los filtros y selección se enlazan con TasksComponent. -->
+<section aria-labelledby="tasks-title">
+  <div class="section-heading">
+    <div>
+      <h2 id="tasks-title">Mis tareas académicas</h2>
+      <p>Selecciona una tarea para preparar tu entrega.</p>
+    </div><span class="count">{{ filtered.length }} tareas</span>
+  </div>
+  <div class="filters">
+    <div><label class="field-label" for="task-search">Buscar tarea</label><input class="input" id="task-search"
+        type="search" placeholder="Buscar por título…" [(ngModel)]="search"></div>
+    <div><label class="field-label" for="course">Curso</label><select id="course" [(ngModel)]="course">
+        <option value="">Todos los cursos</option>@for (course of courses; track course) {<option [value]="course">{{
+          course }}</option>}
+      </select></div><button class="text-button" (click)="clear()">Limpiar filtros</button>
+  </div>
+  <div class="task-list">@for (task of filtered; track task.id) {
+    <article class="task-card" [class.selected]="selected === task.id" [attr.data-task-id]="task.id">
+      <div class="task-top"><span class="course-name">{{ task.curso }}</span><span class="tag"
+          [class.complete]="task.estado === 'Completado'">{{ task.estado }}</span></div>
+      <h3>{{ task.titulo }}</h3>
+      <p class="task-description">{{ task.descripcion }}</p>
+      <div class="task-bottom">
+        <div class="task-meta"><span>◷ Entrega: {{ task.fechaEntrega | date:'dd/MM/yyyy' : 'UTC' }}</span><span>♙ {{
+            task.instructor }}</span></div><button class="button small" [class.secondary]="selected !== task.id"
+          [disabled]="busy" (click)="selectTask.emit(task.id)" [attr.aria-label]="'Seleccionar ' + task.titulo">{{
+          selected === task.id ? '✓ Seleccionada' : 'Preparar entrega →' }}</button>
+      </div>
+    </article>
+    } @empty {<div class="panel empty"><span class="empty-symbol">⌕</span><strong>No encontramos tareas</strong>Prueba
+      otro título o limpia los filtros.</div>}
+  </div>
+</section>

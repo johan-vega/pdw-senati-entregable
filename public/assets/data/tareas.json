@@ -1,0 +1,6 @@
+[
+  {"id":101,"curso":"Desarrollo de Software PWA","titulo":"Entregable 01: Configuración de Service Worker","instructor":"Ing. Jorge Luque","fechaEntrega":"2026-10-15","estado":"Pendiente","descripcion":"Configura el Service Worker y demuestra la disponibilidad de tu aplicación cuando no hay conexión."},
+  {"id":102,"curso":"Base de Datos Avanzada","titulo":"Laboratorio 03: Script DDL PostgreSQL","instructor":"Ing. Carlos Mendoza","fechaEntrega":"2026-10-18","estado":"Completado","descripcion":"Diseña las tablas, relaciones y restricciones de una base de datos para el caso práctico."},
+  {"id":103,"curso":"Desarrollo de Software PWA","titulo":"Entregable 02: App Manifest e instalación","instructor":"Ing. Jorge Luque","fechaEntrega":"2026-10-22","estado":"Pendiente","descripcion":"Personaliza el manifiesto, los iconos y los colores. Comprueba la instalación de tu PWA."},
+  {"id":104,"curso":"Base de Datos Avanzada","titulo":"Laboratorio 04: Persistencia con IndexedDB","instructor":"Ing. Carlos Mendoza","fechaEntrega":"2026-10-25","estado":"Pendiente","descripcion":"Implementa almacenamiento local transaccional y verifica que los registros persistan al recargar."}
+]

@@ -1,0 +1,58 @@
+<!-- Shell global: recibe sección y pestañas de AppComponent, y emite la navegación elegida. -->
+<app-shell brand="SENATI" [section]="active === 'tareas' ? 'Mis tareas' : 'Mis entregas locales'" [active]="active"
+  [tabs]="tabs" (navigate)="navigate($event)">
+  <!-- Indicadores calculados desde la lista JSON de tareas y la lista local de entregas. -->
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">APRENDE. AVANZA. CONTINÚA.</p>
+      <h1>{{ active === 'tareas' ? 'Tu aprendizaje no se detiene' : 'Tu avance, siempre contigo' }}</h1>
+      <p>{{ active === 'tareas' ? 'Organiza tus tareas y guarda tus entregas, incluso sin conexión.' : 'Consulta y
+        administra las entregas guardadas en este dispositivo.' }}</p>
+    </div>
+    <div class="heading-icon" aria-hidden="true">▱</div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-icon" aria-hidden="true">▦</span>
+      <div><strong>{{ tasks.length }}</strong><span>Tareas académicas</span></div>
+    </div>
+    <div class="stat"><span class="stat-icon" aria-hidden="true">◷</span>
+      <div><strong>{{ academicPending }}</strong><span>Tareas por completar</span></div>
+    </div>
+    <div class="stat"><span class="stat-icon" aria-hidden="true">▤</span>
+      <div><strong data-testid="pending-count">{{ pending }}</strong><span>Entregas locales pendientes</span></div>
+    </div>
+  </div>
+  <!-- El online/offline viene del navegador y NoticeService; sin red, las tareas requieren caché previa. -->
+  <div class="notice" [class.offline-note]="!network.online()"><span class="notice-icon" aria-hidden="true">ⓘ</span>
+    <div class="notice-text"><strong>{{ network.online() ? 'Tu avance está a salvo. ' : 'Modo sin conexión. '
+        }}</strong>{{ network.online() ? notice.message() : 'Puedes guardar comentarios y consultar tus entregas. Las
+      tareas requieren una visita previa con conexión.' }}</div>
+  </div>
+  @if (network.recovered()) {<div class="notice" role="status">
+    <div class="notice-text"><strong>Conexión recuperada.</strong> Listo para intentar sincronizar. Tus entregas siguen
+      PENDIENTES hasta conectar una API real.</div><button class="button small secondary" (click)="retry()">Reintentar
+      sincronización</button>
+  </div>}
+  <!-- Estados de operación y fallos recuperables de IndexedDB/carga JSON. -->
+  @if (notification) {<div class="alert" [class.error]="error" [attr.role]="error ? 'alert' : 'status'"
+    data-testid="notification">{{ notification }}</div>}
+  @if (storageError) {<div class="alert error" role="alert">{{ storageError }} <button class="text-button"
+      (click)="loadLocal()">Reintentar lectura</button></div>}
+  <!-- Flujo de tareas: lista filtra/selecciona y formulario solicita guardar al componente raíz. -->
+  @if (active === 'tareas') {
+  @if (loadError) {<div class="alert error" role="alert">{{ loadError }} <button class="text-button"
+      (click)="loadTasks()">Reintentar tareas</button></div>}
+  <div class="columns">
+    <div>@if (loading) {<div class="panel loading" role="status">Cargando tareas…</div>} @else {<app-tasks
+        [tasks]="tasks" [selected]="selected" [busy]="busy" (selectTask)="selectTask($event)" />}</div>
+    <app-delivery-form [tasks]="tasks" [selected]="selected" [comment]="comment" [taskError]="taskError"
+      [commentError]="commentError" [busy]="busy" (selectedChange)="selectTask($event)"
+      (commentChange)="updateComment($event)" (save)="saveDelivery()" />
+  </div>
+  }
+  <!-- Bandeja alimentada exclusivamente por IndexedDB; retry informa que aún no existe API remota. -->
+  @if (active === 'entregas') {<div class="section-heading">
+    <p class="meta">El estado académico de la tarea y la sincronización de una entrega son independientes.</p><button
+      class="button secondary" (click)="retry()">Reintentar sincronización</button>
+  </div><app-inbox [deliveries]="deliveries" [busy]="busy" (deleteDelivery)="deleteDelivery($event)" />}
+</app-shell>
